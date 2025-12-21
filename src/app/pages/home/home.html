@@ -1,0 +1,48 @@
+<main class="container mx-auto px-4 py-16">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center pt-12 pb-8">
+            <h1 class="text-5xl sm:text-6xl font-bold mb-6 text-stone-800 dark:text-stone-100">
+                Cantoral EL TOCHO
+            </h1>
+            <p class="text-xl text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">
+                Tu cancionero de acordes y letras para canciones cristianas en español. Explora, aprende y canta con
+                nosotros.
+            </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mt-8 mb-12">
+            <app-search-bar></app-search-bar>
+        </div>
+
+        <!-- Explore all link -->
+        <div class="mb-16 text-right relative max-w-2xl mx-auto">
+            <h2 class="mx-2">
+                <a routerLink="/canciones"
+                    class="text-base font-medium text-stone-600 hover:text-sky-600 dark:text-stone-300 dark:hover:text-sky-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:focus:ring-offset-stone-900 dark:focus:ring-sky-400">
+                    Explora todo el cancionero →
+                </a>
+            </h2>
+        </div>
+
+        <!-- Categories section -->
+        <div>
+            <h2 class="text-4xl font-bold mb-6 text-stone-800 dark:text-stone-100">
+                Categorías
+            </h2>
+            <p class="mb-8 leading-relaxed text-lg max-w-3xl text-stone-600 dark:text-stone-300">
+                El Tocho organiza sus canciones según los momentos de la misa, desde la entrada hasta la salida. Cada
+                categoría está representada por una letra en orden cronológico de la ceremonia.
+            </p>
+            <app-category-navigation [categories]="songService.categories()"></app-category-navigation>
+        </div>
+
+        <!-- Featured songs section -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold mb-8 text-stone-800 dark:text-stone-100">
+                Canciones Favoritas
+            </h2>
+            <app-featured-song-navigation></app-featured-song-navigation>
+        </div>
+    </div>
+</main>

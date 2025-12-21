@@ -1,0 +1,6 @@
+<div class="flex items-center justify-center h-8 w-full">
+    <div *ngFor="let amplitude of waveformData(); trackBy: trackByIndex"
+        class="w-1 mx-px rounded-full transition-all duration-100 ease-in-out"
+        [ngClass]="themeService.isDarkMode() ? 'bg-stone-400' : 'bg-stone-600'" [style.height.%]="amplitude * 100">
+    </div>
+</div>

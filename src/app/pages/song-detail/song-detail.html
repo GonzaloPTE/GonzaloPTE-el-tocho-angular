@@ -1,0 +1,14 @@
+<main class="flex-grow container mx-auto px-4 py-8">
+    <div *ngIf="song()" class="mx-auto space-y-6" [ngClass]="isLongSongLayout() ? 'max-w-6xl' : 'max-w-4xl'">
+        <app-breadcrumb [items]="breadcrumbItems()" [showBackButton]="true"></app-breadcrumb>
+
+        <app-lyrics-viewer-interactive [song]="song()" [prevSongSlug]="prevSongSlug()"
+            [nextSongSlug]="nextSongSlug()"></app-lyrics-viewer-interactive>
+    </div>
+
+    <div *ngIf="!song()" class="text-center py-20">
+        <h1 class="text-2xl font-bold">Canción no encontrada</h1>
+        <p class="text-stone-600 dark:text-stone-400">La canción que buscas no existe o no está disponible.</p>
+        <a routerLink="/" class="text-sky-600 hover:text-sky-400 mt-4 inline-block">Volver al inicio</a>
+    </div>
+</main>

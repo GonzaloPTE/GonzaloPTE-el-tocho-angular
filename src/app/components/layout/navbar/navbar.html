@@ -1,0 +1,46 @@
+<header
+  class="border-b py-3 shadow-md sticky top-0 z-50 backdrop-blur-md bg-stone-50/80 border-stone-200 dark:bg-stone-900/80 dark:border-stone-700">
+  <div class="container mx-auto flex justify-between items-center px-4 h-14">
+    <a routerLink="/" class="text-2xl md:text-3xl font-bold flex items-center text-stone-800 dark:text-stone-100 z-20">
+      {{ siteName }}
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center space-x-6">
+      <a *ngFor="let item of navItems" [routerLink]="item.href" [routerLinkActive]="'text-stone-900 dark:text-stone-50'"
+        [routerLinkActiveOptions]="{ exact: item.href === '/' }"
+        class="text-sm font-medium transition-colors hover:text-stone-900 dark:hover:text-stone-50 text-stone-600 dark:text-stone-400">
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <div class="flex items-center space-x-2 sm:space-x-4">
+      <!-- Theme Toggle -->
+      <button (click)="themeService.toggleDarkMode()"
+        class="p-2 rounded-md transition-colors hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-600 hover:text-stone-800 dark:text-stone-300 dark:hover:text-stone-100"
+        aria-label="Toggle theme">
+        <lucide-icon [name]="themeService.isDarkMode() ? 'sun' : 'moon'" class="h-5 w-5"></lucide-icon>
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden p-2 rounded-md text-stone-700 dark:text-stone-200 hover:bg-stone-200 dark:hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-stone-500 z-20"
+        (click)="toggleMobileMenu()" [aria-expanded]="isMobileMenuOpen()">
+        <lucide-icon [name]="isMobileMenuOpen() ? 'x' : 'menu'" class="h-6 w-6"></lucide-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Menu Panel -->
+  <div *ngIf="isMobileMenuOpen()"
+    class="md:hidden absolute top-0 inset-x-0 min-h-screen pt-16 px-2 pb-4 bg-stone-50 dark:bg-stone-900 z-10 flex flex-col">
+    <nav class="flex flex-col space-y-3 px-2 pt-2 pb-3">
+      <a *ngFor="let item of navItems" [routerLink]="item.href" (click)="isMobileMenuOpen.set(false)"
+        [routerLinkActive]="'bg-stone-200 text-stone-900 dark:bg-stone-700 dark:text-stone-50'"
+        [routerLinkActiveOptions]="{ exact: item.href === '/' }"
+        class="block rounded-md px-3 py-2 text-base font-medium transition-colors text-stone-700 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-stone-50">
+        {{ item.label }}
+      </a>
+    </nav>
+  </div>
+</header>

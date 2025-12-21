@@ -1,0 +1,32 @@
+<main class="flex-grow container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+        <div class="space-y-6">
+            <div>
+                <h1 class="text-4xl sm:text-5xl font-bold mb-3 text-stone-800 dark:text-stone-100">
+                    Cancionero Completo
+                </h1>
+                <p class="text-lg text-stone-600 dark:text-stone-300">
+                    Descubre nuestro extenso repertorio de {{ totalSongs }} cantos, cuidadosamente organizados en {{
+                    totalCategories }} secciones temáticas.
+                    Explora libremente o utiliza el buscador para encontrar piezas específicas por título, autor o parte
+                    de la letra.
+                </p>
+                <div class="my-12 text-right">
+                    <p class="text-base font-medium text-stone-600 dark:text-stone-300">
+                        <span class="mx-2">¿Necesitas ayuda para encontrar una canción?</span>
+                        <a routerLink="/categorias"
+                            class="text-base font-medium text-stone-600 hover:text-sky-600 dark:text-stone-300 dark:hover:text-sky-400 transition-colors">
+                            Explora por Categoría →
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <app-category-song-list [songs]="songsToDisplay()" categoryName="el cancionero"
+                [currentSearchTerm]="searchTerm()" basePath="/canciones" sortBy="code" sortOrder="asc"
+                [isSearching]="isSearching()"></app-category-song-list>
+        </div>
+    </div>
+</main>

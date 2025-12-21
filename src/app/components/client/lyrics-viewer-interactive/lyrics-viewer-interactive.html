@@ -1,0 +1,89 @@
+<div class="rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 border space-y-6"
+    [ngClass]="themeService.isDarkMode() ? 'bg-stone-800 border-stone-700' : 'bg-white border-stone-200'">
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 flex-shrink-0 rounded-full flex items-center justify-center text-white font-bold shadow-lg"
+                [ngClass]="themeService.isDarkMode() ? 'bg-stone-700' : 'bg-stone-800'">
+                <span class="text-2xl">{{ song.code }}</span>
+            </div>
+            <div class="text-left">
+                <h1 class="text-3xl sm:text-4xl font-bold leading-tight text-stone-800 dark:text-stone-100">
+                    {{ song.title }}
+                </h1>
+                <h2 *ngIf="song.author" class="text-xl sm:text-2xl"
+                    [ngClass]="themeService.isDarkMode() ? 'text-stone-400' : 'text-stone-600'">
+                    {{ song.author }}
+                </h2>
+            </div>
+        </div>
+        <div class="flex justify-end sm:justify-start">
+            <app-transpose-control [value]="transpose()" (onChange)="transpose.set($event)"></app-transpose-control>
+        </div>
+    </div>
+
+    <!-- Waveform & Time -->
+    <div class="space-y-2 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-12 transition-opacity duration-300"
+        [class.opacity-25]="!song.audioUrl" [class.pointer-events-none]="!song.audioUrl">
+        <div class="relative">
+            <app-waveform [currentTime]="currentTime()" [duration]="duration()" [waveformData]="mockWaveformData"
+                (onClick)="handleSeek($event)"></app-waveform>
+            <div *ngIf="song.audioUrl"
+                class="absolute bottom-0 left-0 right-0 flex justify-between text-xs sm:text-sm font-medium">
+                <span class="absolute left-0 sm:left-1 bottom-[-1.25rem] sm:bottom-[-1.5rem]"
+                    [ngClass]="themeService.isDarkMode() ? 'text-stone-400' : 'text-stone-600'">
+                    {{ formattedCurrentTime() }}
+                </span>
+                <span class="absolute right-0 sm:right-1 bottom-[-1.25rem] sm:bottom-[-1.5rem]"
+                    [ngClass]="themeService.isDarkMode() ? 'text-stone-400' : 'text-stone-600'">
+                    {{ formattedDuration() }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls Row -->
+    <div class="flex justify-center items-center space-x-1 sm:space-x-2 md:space-x-4 h-16 sm:h-20">
+        <!-- Prev Button -->
+        <button class="p-2 rounded-md transition-colors" [disabled]="!prevSongSlug" [ngClass]="[
+                !prevSongSlug ? 'opacity-30 cursor-not-allowed' : '',
+                themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800'
+            ]" (click)="handlePrevSong()" aria-label="Canción anterior">
+            <lucide-icon name="skip-back" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+        </button>
+
+        <!-- Audio Controls Group (Rewind, Play/Pause, FastFwd) -->
+        <button class="p-2 rounded-md transition-colors" [disabled]="!song.audioUrl" [ngClass]="[
+                !song.audioUrl ? 'opacity-30 cursor-not-allowed' : '',
+                themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800'
+            ]" (click)="handleRewind()" aria-label="Retroceder 10 segundos">
+            <lucide-icon name="rewind" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+        </button>
+        <button
+            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300"
+            [disabled]="!song.audioUrl" [ngClass]="[
+                !song.audioUrl ? 'opacity-30 cursor-not-allowed bg-stone-500' : (themeService.isDarkMode() ? 'bg-stone-700 hover:bg-stone-600' : 'bg-stone-800 hover:bg-stone-700')
+            ]" (click)="togglePlayPause()" [aria-label]="isPlaying() ? 'Pausar' : 'Reproducir'">
+            <lucide-icon [name]="isPlaying() ? 'pause' : 'play'" class="h-5 w-5 sm:h-6 sm:w-6 text-white"></lucide-icon>
+        </button>
+        <button class="p-2 rounded-md transition-colors" [disabled]="!song.audioUrl" [ngClass]="[
+                !song.audioUrl ? 'opacity-30 cursor-not-allowed' : '',
+                themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800'
+            ]" (click)="handleFastForward()" aria-label="Avanzar 10 segundos">
+            <lucide-icon name="fast-forward" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+        </button>
+
+        <!-- Next Button -->
+        <button class="p-2 rounded-md transition-colors" [disabled]="!nextSongSlug" [ngClass]="[
+                !nextSongSlug ? 'opacity-30 cursor-not-allowed' : '',
+                themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800'
+            ]" (click)="handleNextSong()" aria-label="Siguiente canción">
+            <lucide-icon name="skip-forward" class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+        </button>
+    </div>
+
+    <div class="mt-6 pt-12 px-1 sm:px-2 md:px-4 lg:px-6 whitespace-pre-wrap font-mono text-sm sm:text-base md:text-lg leading-relaxed select-text"
+        [ngClass]="themeService.isDarkMode() ? 'text-stone-300' : 'text-stone-700'">
+        {{ displayLyrics() }}
+    </div>
+</div>

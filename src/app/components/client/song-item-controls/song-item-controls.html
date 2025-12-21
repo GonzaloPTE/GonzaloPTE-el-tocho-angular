@@ -1,0 +1,24 @@
+<div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+    <button *ngIf="song.audioUrl" (click)="togglePreview($event)"
+        class="p-1 h-8 w-8 sm:h-9 sm:w-9 rounded-md transition-colors" [ngClass]="[
+      themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800',
+      previewService.activePreviewSongId() === song.id ? 'animate-pulse' : ''
+    ]"
+        [aria-label]="previewService.activePreviewSongId() === song.id ? 'Pausar previsualización' : 'Reproducir previsualización'">
+        <lucide-icon [name]="previewService.activePreviewSongId() === song.id ? 'pause' : 'play'"
+            class="h-4 w-4 sm:h-5 sm:w-5"></lucide-icon>
+    </button>
+
+    <div *ngIf="previewService.activePreviewSongId() === song.id" class="w-12 sm:w-16 h-8 flex items-center">
+        <app-waveform-preview></app-waveform-preview>
+    </div>
+
+    <button (click)="toggleFavorite($event)" class="p-1 h-8 w-8 sm:h-9 sm:w-9 rounded-md transition-colors" [ngClass]="
+      favoritesService.isFavorite(song.id)
+        ? (themeService.isDarkMode() ? 'text-red-400' : 'text-red-500')
+        : (themeService.isDarkMode() ? 'text-stone-300 hover:text-stone-100' : 'text-stone-600 hover:text-stone-800')
+    " [aria-label]="favoritesService.isFavorite(song.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'">
+        <lucide-icon name="heart" class="h-4 w-4 sm:h-5 sm:w-5"
+            [ngClass]="favoritesService.isFavorite(song.id) ? 'fill-current text-current' : ''"></lucide-icon>
+    </button>
+</div>

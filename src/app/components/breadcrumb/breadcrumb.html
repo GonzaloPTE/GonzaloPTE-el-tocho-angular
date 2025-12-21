@@ -1,0 +1,21 @@
+<nav aria-label="breadcrumb" class="flex items-center justify-between text-sm text-stone-600 dark:text-stone-400">
+    <ol *ngIf="items.length > 0" class="flex items-center space-x-1.5">
+        <li *ngFor="let item of items; let i = index" class="flex items-center">
+            <a *ngIf="item.href" [routerLink]="item.href"
+                class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                {{ item.label }}
+            </a>
+            <span *ngIf="!item.href" class="font-medium text-stone-700 dark:text-stone-300">
+                {{ item.label }}
+            </span>
+            <lucide-icon *ngIf="i < items.length - 1" name="chevron-right" [size]="16"
+                class="mx-1.5 text-stone-400 dark:text-stone-500"></lucide-icon>
+        </li>
+    </ol>
+
+    <button *ngIf="showBackButton" (click)="goBack()"
+        class="flex items-center text-sm text-stone-600 hover:text-sky-600 dark:text-stone-400 dark:hover:text-sky-400 transition-colors ml-auto">
+        <lucide-icon name="arrow-left" class="mr-1 h-4 w-4"></lucide-icon>
+        Volver
+    </button>
+</nav>

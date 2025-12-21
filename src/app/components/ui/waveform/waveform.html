@@ -1,0 +1,12 @@
+<div class="flex justify-center w-full">
+    <div #waveformContainer class="h-16 w-full max-w-3xl cursor-pointer" (click)="handleClick($event)">
+        <div class="h-full w-full flex items-center">
+            <div *ngFor="let amplitude of waveformData; let i = index" class="flex-grow flex flex-col justify-center"
+                style="padding: 0 0.5px; height: 100%">
+                <div class="rounded-full transition-all duration-100 ease-in-out"
+                    [ngClass]="isCurrent(i) ? (themeService.isDarkMode() ? 'bg-stone-300' : 'bg-stone-700') : (themeService.isDarkMode() ? 'bg-stone-600/50' : 'bg-stone-300/50')"
+                    [style.height.%]="amplitude * 100 < 4 ? 4 : amplitude * 100" style="width: 2px"></div>
+            </div>
+        </div>
+    </div>
+</div>

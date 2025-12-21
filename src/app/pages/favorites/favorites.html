@@ -1,0 +1,55 @@
+<div class="hoja-favoritos-page min-h-screen bg-stone-50 print:bg-white text-stone-900 print:text-black">
+    <!-- Screen Controls - Hidden on Print -->
+    <div class="container mx-auto px-2 sm:px-4 py-6 sm:py-8 print:hidden">
+        <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <button (click)="handleBack()"
+                class="px-4 py-2 border rounded-md hover:bg-stone-100 flex items-center w-full sm:w-auto transition-colors">
+                <lucide-icon name="arrow-left" class="mr-2 h-4 w-4"></lucide-icon>
+                Volver
+            </button>
+            <input type="text" [ngModel]="printableSheetTitle()" (ngModelChange)="printableSheetTitle.set($event)"
+                placeholder="Escribe un título para la hoja..."
+                class="w-full sm:w-1/2 md:w-1/3 text-center border-stone-300 focus:border-sky-500 rounded-md p-2 outline-none" />
+            <button (click)="handlePrint()"
+                class="px-4 py-2 bg-stone-800 text-white rounded-md hover:bg-stone-700 flex items-center w-full sm:w-auto transition-colors">
+                <lucide-icon name="printer" class="mr-2 h-4 w-4"></lucide-icon>
+                Imprimir
+            </button>
+        </div>
+    </div>
+
+    <!-- Content to be Printed -->
+    <div class="printable-area">
+        <!-- Header - Print Only -->
+        <div class="hidden print:block mb-8 pb-4">
+            <div class="flex items-center justify-between text-xs px-[15mm]">
+                <span class="text-xl font-bold font-inter">EL TOCHO</span>
+                <span class="flex-grow font-semibold text-lg text-center font-inter">{{ printableSheetTitle() }}</span>
+                <a href="https://cantoraleltocho.com" class="hover:underline font-inter">cantoraleltocho.com</a>
+            </div>
+        </div>
+
+        <!-- Song List -->
+        <div class="container mx-auto px-2 sm:px-4 print:px-0 print:pb-[5mm]">
+            <div *ngIf="favoriteSongs().length > 0; else emptyState"
+                class="space-y-4 print:space-y-0 print-song-list-columns">
+                <ng-container *ngFor="let song of favoriteSongs(); let i = index; trackBy: trackById">
+                    <div *ngIf="i > 0" class="flex justify-center -my-8 print:hidden relative z-10">
+                        <button
+                            class="rounded-full w-12 h-12 sm:w-14 sm:h-14 bg-stone-800 hover:bg-stone-900 border-2 border-white shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+                            (click)="handleSwapSongs(i, i - 1)" title="Mover canción hacia arriba">
+                            <lucide-icon name="arrow-up-down" class="h-6 w-6 sm:h-7 sm:w-7 text-white"></lucide-icon>
+                        </button>
+                    </div>
+                    <app-printable-song-item [song]="song" [songIndex]="i" [totalSongs]="favoriteSongs().length"
+                        [tag]="song.tag" (onTagChange)="handleTagChange(song.id, $event)"></app-printable-song-item>
+                </ng-container>
+            </div>
+            <ng-template #emptyState>
+                <p class="text-center text-lg print:hidden">
+                    No tienes canciones favoritas seleccionadas. Añade algunas desde el cancionero.
+                </p>
+            </ng-template>
+        </div>
+    </div>
+</div>

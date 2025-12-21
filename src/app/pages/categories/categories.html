@@ -1,0 +1,16 @@
+<main class="container mx-auto px-4 py-12 sm:py-16">
+    <div class="max-w-5xl mx-auto space-y-12 sm:space-y-16">
+        <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+        <div class="text-center sm:text-left">
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-stone-800 dark:text-stone-100">
+                Categorías de Cantos
+            </h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto sm:mx-0 text-stone-600 dark:text-stone-300">
+                Explora todas las categorías de cantos litúrgicos. Cada sección corresponde a un momento específico de
+                la celebración, facilitando la selección de la música adecuada para cada parte de la misa.
+            </p>
+        </div>
+
+        <app-category-navigation [categories]="songService.categories()"></app-category-navigation>
+    </div>
+</main>

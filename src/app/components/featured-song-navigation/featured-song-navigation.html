@@ -1,4 +1,4 @@
-<div *ngIf="favoriteSongs().length === 0"
+<div *ngIf="!favoriteSongs().length"
     class="p-6 rounded-2xl border flex flex-col items-center justify-center text-center space-y-3 min-h-[200px]"
     [ngClass]="themeService.isDarkMode() ? 'bg-stone-800 border-stone-700' : 'bg-stone-50 border-stone-200'">
     <lucide-icon [name]="'heart-crack'" class="w-12 h-12"
